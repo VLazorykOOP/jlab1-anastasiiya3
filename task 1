@@ -1,0 +1,52 @@
+import java.util.Scanner;
+
+public class Lab1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Option 1: double input, double output
+        System.out.println("Option 1 (double -> double):");
+        System.out.print("Enter x (double): ");
+        double x1 = scanner.nextDouble();
+        System.out.print("Enter y (double): ");
+        double y1 = scanner.nextDouble();
+        double result1 = calculateDoubleDouble(x1, y1);
+        System.out.printf("Result: %.4f\n\n", result1);
+        
+        // Option 2: int input, double output
+        System.out.println("Option 2 (int -> double):");
+        System.out.print("Enter x (int): ");
+        int x2 = scanner.nextInt();
+        System.out.print("Enter y (int): ");
+        int y2 = scanner.nextInt();
+        double result2 = calculateIntDouble(x2, y2);
+        System.out.printf("Result: %.4f\n\n", result2);
+        
+        // Option 3: double input, int output
+        System.out.println("Option 3 (double -> int):");
+        System.out.print("Enter x (double): ");
+        double x3 = scanner.nextDouble();
+        System.out.print("Enter y (double): ");
+        double y3 = scanner.nextDouble();
+        int result3 = calculateDoubleInt(x3, y3);
+        System.out.printf("Result: %d\n", result3);
+        
+        scanner.close();
+    }
+    
+    // Option 1: double -> double
+    public static double calculateDoubleDouble(double x, double y) {
+        return x * y + (Math.pow(x + y, 3) / (x * x + y * y)) * (x - y);
+    }
+    
+    // Option 2: int -> double
+    public static double calculateIntDouble(int x, int y) {
+        return x * y + (Math.pow(x + y, 3) / (x * x + y * y)) * (x - y);
+    }
+    
+    // Option 3: double -> int
+    public static int calculateDoubleInt(double x, double y) {
+        double result = x * y + (Math.pow(x + y, 3) / (x * x + y * y)) * (x - y);
+        return (int) Math.round(result);
+    }
+}
