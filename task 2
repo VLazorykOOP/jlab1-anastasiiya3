@@ -1,0 +1,57 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Введення масиву A
+        System.out.print("Enter size of array A (n < 400): ");
+        int n = scanner.nextInt();
+        int[] A = new int[n];
+        System.out.println("Enter elements of array A:");
+        for (int i = 0; i < n; i++) {
+            A[i] = scanner.nextInt();
+        }
+        
+        // Введення масиву B
+        System.out.print("Enter size of array B (m < 200): ");
+        int m = scanner.nextInt();
+        int[] B = new int[m];
+        System.out.println("Enter elements of array B:");
+        for (int i = 0; i < m; i++) {
+            B[i] = scanner.nextInt();
+        }
+        
+        // Сортуємо масив A для пошуку найменшого елементу
+        int[] sortedA = A.clone();
+        Arrays.sort(sortedA);
+        
+        // Шукаємо перший елемент з відсортованого A, якого немає в B
+        int result = Integer.MAX_VALUE;
+        for (int num : sortedA) {
+            if (!contains(B, num)) {
+                result = num;
+                break;
+            }
+        }
+        
+        // Виведення результату
+        if (result != Integer.MAX_VALUE) {
+            System.out.println("Minimum element from A not in B: " + result);
+        } else {
+            System.out.println("All elements from A are present in B");
+        }
+        
+        scanner.close();
+    }
+    
+    public static boolean contains(int[] array, int value) {
+        for (int num : array) {
+            if (num == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
