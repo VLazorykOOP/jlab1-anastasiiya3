@@ -1,0 +1,67 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Lab Work - Expression Calculation");
+        System.out.println("Formula: xy + ((x+y)^3/(x^2+y^2)) * (x-y)");
+        System.out.println();
+        
+        // Variant 1: double input, double output
+        System.out.println("Variant 1 (double -> double):");
+        System.out.print("Enter x (double): ");
+        double x1 = scanner.nextDouble();
+        System.out.print("Enter y (double): ");
+        double y1 = scanner.nextDouble();
+        
+        double result1 = calculateDoubleDouble(x1, y1);
+        System.out.println("Result: " + result1);
+        System.out.println();
+        
+        // Variant 2: int input, double output
+        System.out.println("Variant 2 (int -> double):");
+        System.out.print("Enter x (int): ");
+        int x2 = scanner.nextInt();
+        System.out.print("Enter y (int): ");
+        int y2 = scanner.nextInt();
+        
+        double result2 = calculateIntDouble(x2, y2);
+        System.out.println("Result: " + result2);
+        System.out.println();
+        
+        // Variant 3: double input, int output
+        System.out.println("Variant 3 (double -> int):");
+        System.out.print("Enter x (double): ");
+        double x3 = scanner.nextDouble();
+        System.out.print("Enter y (double): ");
+        double y3 = scanner.nextDouble();
+        
+        int result3 = calculateDoubleInt(x3, y3);
+        System.out.println("Result: " + result3);
+        
+        scanner.close();
+    }
+    
+    // Variant 1: double -> double
+    public static double calculateDoubleDouble(double x, double y) {
+        double numerator = Math.pow(x + y, 3);
+        double denominator = x * x + y * y;
+        return x * y + (numerator / denominator) * (x - y);
+    }
+    
+    // Variant 2: int -> double
+    public static double calculateIntDouble(int x, int y) {
+        double numerator = Math.pow(x + y, 3);
+        double denominator = x * x + y * y;
+        return x * y + (numerator / denominator) * (x - y);
+    }
+    
+    // Variant 3: double -> int
+    public static int calculateDoubleInt(double x, double y) {
+        double numerator = Math.pow(x + y, 3);
+        double denominator = x * x + y * y;
+        double result = x * y + (numerator / denominator) * (x - y);
+        return (int) Math.round(result);
+    }
+}
