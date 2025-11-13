@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+public class SymmetricWords {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Зчитування тексту
+        System.out.println("Введіть текст:");
+        String text = scanner.nextLine();
+        
+        // Розділення тексту на слова (роздільники: пробіли, коми, крапки, знаки оклику та питання)
+        String[] words = text.split("[\\s,.!?;:]+");
+        
+        System.out.println("\nСиметричні слова в тексті:");
+        
+        // Перебір всіх слів
+        for (String word : words) {
+            if (!word.isEmpty() && isSymmetric(word)) {
+                System.out.println(word);
+            }
+        }
+        
+        scanner.close();
+    }
+    
+    // Метод для перевірки чи слово є симетричним
+    public static boolean isSymmetric(String word) {
+        int length = word.length();
+        
+        // Перевірка кожного символу з обох кінців
+        for (int i = 0; i < length / 2; i++) {
+            if (word.charAt(i) != word.charAt(length - 1 - i)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
