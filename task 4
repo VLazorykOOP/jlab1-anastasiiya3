@@ -1,39 +1,78 @@
-import java.util.Scanner;
 
-public class SymmetricWords {
+            
+        import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class LexicographicalWordsFinder {
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // Приклад тексту з малих латинських літер, розділених пробілами та розділовими знаками
+        String text = "ab.book.cellar.loop,additionally;test,hello-aab-zoo-aaab.";
+
+        List<String> result = findLexicographicalWords(text);
+
+        System.out.println("✅ Оригінальний текст:");
+        System.out.println("  " + text);
         
-        // Зчитування тексту
-        System.out.println("Введіть текст:");
-        String text = scanner.nextLine();
+        System.out.println("\n--- Результат ---");
+        if (result.isEmpty()) {
+            System.out.println("Не знайдено слів, літери в яких розміщені в лексикографічному порядку.");
+        } else {
+            System.out.println("👉 Слова з літерами в лексикографічному порядку:");
+            for (String word : result) {
+                System.out.println("  " + word);
+            }
+        }
+    }
+
+    /**
+     * Знаходить всі слова в тексті, літери в яких розміщені в лексикографічному порядку.
+     * @param text Вхідний текст.
+     * @return Список слів, що відповідають умові.
+     */
+    public static List<String> findLexicographicalWords(String text) {
+        List<String> lexicographicalWords = new ArrayList<>();
         
-        // Розділення тексту на слова (роздільники: пробіли, коми, крапки, знаки оклику та питання)
-        String[] words = text.split("[\\s,.!?;:]+");
-        
-        System.out.println("\nСиметричні слова в тексті:");
-        
-        // Перебір всіх слів
-        for (String word : words) {
-            if (!word.isEmpty() && isSymmetric(word)) {
-                System.out.println(word);
+        // Використовуємо StringTokenizer або split для розділення тексту на слова.
+        // StringTokenizer краще підходить для обробки декількох роздільників.
+        String delimiters = " .,;:-"; 
+        StringTokenizer tokenizer = new StringTokenizer(text, delimiters);
+
+        while (tokenizer.hasMoreTokens()) {
+            String word = tokenizer.nextToken().toLowerCase(); // Переводимо у нижній регістр для безпеки
+            
+            // Оскільки в умові сказано, що текст із малих латинських літер, 
+            // додаткову перевірку на літери можна опустити.
+            
+            if (isLexicographicallySorted(word)) {
+                lexicographicalWords.add(word);
             }
         }
         
-        scanner.close();
+        return lexicographicalWords;
     }
-    
-    // Метод для перевірки чи слово є симетричним
-    public static boolean isSymmetric(String word) {
-        int length = word.length();
-        
-        // Перевірка кожного символу з обох кінців
-        for (int i = 0; i < length / 2; i++) {
-            if (word.charAt(i) != word.charAt(length - 1 - i)) {
+
+    /**
+     * Перевіряє, чи розміщені літери в слові в лексикографічному порядку 
+     * (тобто кожна наступна літера більша або рівна попередній).
+     * @param word Слово для перевірки.
+     * @return true, якщо літери відсортовані, false - інакше.
+     */
+    public static boolean isLexicographicallySorted(String word) {
+        // Слова з 0 або 1 літерою завжди вважаються відсортованими.
+        if (word == null || word.length() <= 1) {
+            return true;
+        }
+
+        // Перевіряємо кожну пару сусідніх символів
+        for (int i = 0; i < word.length() - 1; i++) {
+            // Якщо поточний символ більший за наступний, то порядок порушено
+            if (word.charAt(i) > word.charAt(i + 1)) {
                 return false;
             }
         }
-        
+
         return true;
     }
 }
