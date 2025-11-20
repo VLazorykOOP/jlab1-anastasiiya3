@@ -1,67 +1,48 @@
-import java.util.Scanner;
+/**
+ * Клас FactorialCalculator містить метод для обчислення факторіалу числа.
+ */
+public class FactorialCalculator {
 
-public class Main {
+    /**
+     * Основний метод (main), з якого починається виконання програми.
+     */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // Число, факторіал якого ми хочемо обчислити
+        int number = 5; 
         
-        System.out.println("Lab Work - Expression Calculation");
-        System.out.println("Formula: xy + ((x+y)^3/(x^2+y^2)) * (x-y)");
-        System.out.println();
+        // Виклик методу для обчислення факторіалу
+        long result = calculateFactorial(number); 
         
-        // Variant 1: double input, double output
-        System.out.println("Variant 1 (double -> double):");
-        System.out.print("Enter x (double): ");
-        double x1 = scanner.nextDouble();
-        System.out.print("Enter y (double): ");
-        double y1 = scanner.nextDouble();
-        
-        double result1 = calculateDoubleDouble(x1, y1);
-        System.out.println("Result: " + result1);
-        System.out.println();
-        
-        // Variant 2: int input, double output
-        System.out.println("Variant 2 (int -> double):");
-        System.out.print("Enter x (int): ");
-        int x2 = scanner.nextInt();
-        System.out.print("Enter y (int): ");
-        int y2 = scanner.nextInt();
-        
-        double result2 = calculateIntDouble(x2, y2);
-        System.out.println("Result: " + result2);
-        System.out.println();
-        
-        // Variant 3: double input, int output
-        System.out.println("Variant 3 (double -> int):");
-        System.out.print("Enter x (double): ");
-        double x3 = scanner.nextDouble();
-        System.out.print("Enter y (double): ");
-        double y3 = scanner.nextDouble();
-        
-        int result3 = calculateDoubleInt(x3, y3);
-        System.out.println("Result: " + result3);
-        
-        scanner.close();
+        // Виведення результату на консоль
+        System.out.println("Факторіал числа " + number + " дорівнює: " + result); 
     }
-    
-    // Variant 1: double -> double
-    public static double calculateDoubleDouble(double x, double y) {
-        double numerator = Math.pow(x + y, 3);
-        double denominator = x * x + y * y;
-        return x * y + (numerator / denominator) * (x - y);
-    }
-    
-    // Variant 2: int -> double
-    public static double calculateIntDouble(int x, int y) {
-        double numerator = Math.pow(x + y, 3);
-        double denominator = x * x + y * y;
-        return x * y + (numerator / denominator) * (x - y);
-    }
-    
-    // Variant 3: double -> int
-    public static int calculateDoubleInt(double x, double y) {
-        double numerator = Math.pow(x + y, 3);
-        double denominator = x * x + y * y;
-        double result = x * y + (numerator / denominator) * (x - y);
-        return (int) Math.round(result);
+
+    /**
+     * Метод для обчислення факторіалу невід'ємного цілого числа (n!).
+     * Факторіал n - це добуток усіх натуральних чисел від 1 до n.
+     * * @param n невід'ємне ціле число
+     * @return факторіал числа n (довгий тип для уникнення переповнення)
+     */
+    public static long calculateFactorial(int n) {
+        // Перевірка на від'ємне число
+        if (n < 0) {
+            throw new IllegalArgumentException("Факторіал не визначений для від'ємних чисел.");
+        }
+        
+        // Факторіал 0 та 1 дорівнює 1
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+
+        // Ініціалізація змінної для зберігання добутку
+        long factorial = 1;
+        
+        // Цикл для множення чисел від 2 до n
+        for (int i = 2; i <= n; i++) {
+            factorial = factorial * i;
+        }
+
+        return factorial;
     }
 }
+
