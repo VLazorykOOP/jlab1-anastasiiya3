@@ -1,57 +1,80 @@
-import java.util.Scanner;
 import java.util.Arrays;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        // Введення масиву A
-        System.out.print("Enter size of array A (n < 400): ");
-        int n = scanner.nextInt();
-        int[] A = new int[n];
-        System.out.println("Enter elements of array A:");
-        for (int i = 0; i < n; i++) {
-            A[i] = scanner.nextInt();
-        }
-        
-        // Введення масиву B
-        System.out.print("Enter size of array B (m < 200): ");
-        int m = scanner.nextInt();
-        int[] B = new int[m];
-        System.out.println("Enter elements of array B:");
-        for (int i = 0; i < m; i++) {
-            B[i] = scanner.nextInt();
-        }
-        
-        // Сортуємо масив A для пошуку найменшого елементу
-        int[] sortedA = A.clone();
-        Arrays.sort(sortedA);
-        
-        // Шукаємо перший елемент з відсортованого A, якого немає в B
-        int result = Integer.MAX_VALUE;
-        for (int num : sortedA) {
-            if (!contains(B, num)) {
-                result = num;
+public class NegativeSum {
+
+    public static void calculateSumBetweenNegatives(int[] arr) {
+        System.out.println("--- Завдання 9: Сума між від'ємними елементами ---");
+        System.out.println("Масив: " + Arrays.toString(arr));
+
+        int firstNegativeIndex = -1;
+        int lastNegativeIndex = -1;
+
+        // 1. Пошук індексу першого від'ємного числа
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] < 0) {
+                firstNegativeIndex = i;
                 break;
             }
         }
-        
-        // Виведення результату
-        if (result != Integer.MAX_VALUE) {
-            System.out.println("Minimum element from A not in B: " + result);
-        } else {
-            System.out.println("All elements from A are present in B");
-        }
-        
-        scanner.close();
-    }
-    
-    public static boolean contains(int[] array, int value) {
-        for (int num : array) {
-            if (num == value) {
-                return true;
+
+        // 2. Пошук індексу останнього від'ємного числа (починаючи з кінця)
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (arr[i] < 0) {
+                lastNegativeIndex = i;
+                break;
             }
         }
-        return false;
+
+        // 3. Перевірка умови
+        // Для обчислення суми потрібно мінімум два від'ємних елементи
+        if (firstNegativeIndex == -1 || firstNegativeIndex == lastNegativeIndex) {
+            if (firstNegativeIndex == -1) {
+                System.out.println("Повідомлення: У масиві відсутні від'ємні числа.");
+            } else {
+                System.out.println("Повідомлення: У масиві знайдено тільки одне від'ємне число.");
+            }
+            return;
+        }
+
+        // 4. Обчислення суми
+        // Сума обчислюється для елементів *між* першим і останнім від'ємним,
+        // тобто від firstNegativeIndex + 1 до lastNegativeIndex - 1.
+        long sum = 0; // Використовуємо long для запобігання переповненню
+        for (int i = firstNegativeIndex + 1; i < lastNegativeIndex; i++) {
+            sum += arr[i];
+        }
+
+        // 5. Виведення результату
+        System.out.println("Перший від'ємний елемент: A[" + firstNegativeIndex + "] = " + arr[firstNegativeIndex]);
+        System.out.println("Останній від'ємний елемент: A[" + lastNegativeIndex + "] = " + arr[lastNegativeIndex]);
+        
+        // Перевірка на випадок, коли між ними немає чисел
+        if (lastNegativeIndex - firstNegativeIndex > 1) {
+             System.out.println("Діапазон індексів для суми: від " + (firstNegativeIndex + 1) + " до " + (lastNegativeIndex - 1));
+             System.out.println("ОБЧИСЛЕНА СУМА: " + sum);
+        } else {
+             System.out.println("Діапазон індексів: елементів між першим і останнім від'ємними числами немає.");
+             System.out.println("ОБЧИСЛЕНА СУМА: 0");
+        }
+    }
+
+    public static void main(String[] args) {
+        // Приклад 1: З двома від'ємними числами
+        int[] array1 = {1, 5, -8, 2, 0, 4, -3, 9, 10};
+        calculateSumBetweenNegatives(array1);
+        // Сума: 2 + 0 + 4 = 6
+
+        System.out.println();
+
+        // Приклад 2: З одним від'ємним числом
+        int[] array2 = {1, 5, 8, 2, -1, 4, 3, 9, 10};
+        calculateSumBetweenNegatives(array2);
+
+        System.out.println();
+
+        // Приклад 3: З відсутніми від'ємними числами
+        int[] array3 = {1, 5, 8, 2, 10, 4, 3, 9, 10};
+        calculateSumBetweenNegatives(array3);
     }
 }
+
