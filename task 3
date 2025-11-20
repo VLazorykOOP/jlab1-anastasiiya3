@@ -1,81 +1,97 @@
+import java.util.Arrays;
 
-       
-    
-   import java.util.Scanner;
+public class MatrixAnalyzer {
 
-public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        // Введення розміру матриці
-        System.out.print("Введіть розмір матриці n (n < 20): ");
-        int n = scanner.nextInt();
-        
-        // Перевірка обмеження
-        if (n >= 20) {
-            System.out.println("Помилка: n повинно бути менше 20");
-            return;
-        }
-        
-        // Створення матриці
-        double[][] A = new double[n][n];
-        System.out.println("Введіть елементи матриці:");
-        
-        // Введення елементів матриці
-        for (int i = 0; i < n; i++) {
-            System.out.println("Рядок " + (i + 1) + ":");
-            for (int j = 0; j < n; j++) {
-                A[i][j] = scanner.nextDouble();
-            }
-        }
-        
-        // Виведення введеної матриці
-        System.out.println("\nМатриця A:");
-        printMatrix(A);
-        
-        // Створення вектора X
-        double[] X = createVectorX(A);
-        
-        // Виведення результату
-        System.out.println("\nВектор X (сума модулів максимального та мінімального елементів для кожного рядка):");
-        for (int i = 0; i < X.length; i++) {
-            System.out.printf("X(%d) = %.2f\n", (i + 1), X[i]);
-        }
-        
-        scanner.close();
+        // Приклад цілочисельної матриці A(n, n), де n = 4 (n <= 15)
+        int[][] matrix = {
+            {5, 5, 5, 5},   // Рядок 0: Всі елементи однакові
+            {1, 2, 3, 4},
+            {7, 7, 7, 7},   // Рядок 2: Всі елементи однакові
+            {2, 4, 6, 8}    // Стовпчики 1, 3 - парні; Рядок 3 - всі елементи парні
+        };
+
+        System.out.println("✅ Оригінальна матриця:");
+        printMatrix(matrix);
+
+        // --- Частина 1: Пошук рядків з однаковими елементами ---
+        findRowsWithSameElements(matrix);
+
+        // --- Частина 2: Пошук стовпчиків з усіма парними елементами ---
+        findColumnsWithAllEvenElements(matrix);
     }
-    
-    public static double[] createVectorX(double[][] matrix) {
+
+    /**
+     * Знаходить і друкує номери рядків (індекси), у яких всі елементи однакові.
+     * @param matrix Матриця для аналізу.
+     */
+    public static void findRowsWithSameElements(int[][] matrix) {
+        System.out.println("\n--- Рядки з однаковими елементами ---");
         int n = matrix.length;
-        double[] X = new double[n];
-        
+        boolean found = false;
+
         for (int i = 0; i < n; i++) {
-            double max = matrix[i][0];
-            double min = matrix[i][0];
-            
-            // Знаходимо максимальний та мінімальний елемент в i-му рядку
+            boolean isSame = true;
+            // Порівнюємо всі елементи рядка з першим елементом цього рядка
+            int firstElement = matrix[i][0];
             for (int j = 1; j < n; j++) {
-                if (matrix[i][j] > max) {
-                    max = matrix[i][j];
-                }
-                if (matrix[i][j] < min) {
-                    min = matrix[i][j];
+                if (matrix[i][j] != firstElement) {
+                    isSame = false;
+                    break;
                 }
             }
-            
-            // Обчислюємо суму модулів максимального та мінімального елементів
-            X[i] = Math.abs(max) + Math.abs(min);
+
+            if (isSame) {
+                System.out.printf("👉 Рядок з індексом %d (номер %d): всі елементи = %d%n", i, i + 1, firstElement);
+                found = true;
+            }
         }
-        
-        return X;
+
+        if (!found) {
+            System.out.println("Не знайдено рядків, у яких всі елементи однакові.");
+        }
     }
-    
-    public static void printMatrix(double[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.printf("%8.2f", matrix[i][j]);
+
+    /**
+     * Знаходить і друкує номери стовпчиків (індекси), всі елементи в яких парні.
+     * @param matrix Матриця для аналізу.
+     */
+    public static void findColumnsWithAllEvenElements(int[][] matrix) {
+        System.out.println("\n--- Стовпчики з усіма парними елементами ---");
+        int n = matrix.length;
+        boolean found = false;
+
+        for (int j = 0; j < n; j++) { // Ітерація по стовпчиках (j)
+            boolean isAllEven = true;
+            for (int i = 0; i < n; i++) { // Ітерація по елементах стовпчика (i)
+                if (matrix[i][j] % 2 != 0) {
+                    isAllEven = false;
+                    break;
+                }
             }
-            System.out.println();
+
+            if (isAllEven) {
+                System.out.printf("👉 Стовпчик з індексом %d (номер %d): всі елементи парні.%n", j, j + 1);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Не знайдено стовпчиків, у яких всі елементи парні.");
+        }
+    }
+
+    /**
+     * Допоміжний метод для друку матриці.
+     */
+    public static void printMatrix(int[][] matrix) {
+        for (int[] row : matrix) {
+            System.out.println(Arrays.toString(row));
         }
     }
 }
+       
+    
+        
+
+
